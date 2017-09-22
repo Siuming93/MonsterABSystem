@@ -26,5 +26,10 @@ public class LoadAsset : MonoBehaviour
             panel.transform.localPosition = Vector3.zero;
 	        panel.transform.localEulerAngles = Vector3.zero;
 	    }
+
+	    if (hasAdd)
+	    {
+	        ResourcesFacade.Instance.Trik();
+	    }
 	}
 }
