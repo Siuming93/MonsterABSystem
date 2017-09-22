@@ -1,0 +1,33 @@
+ManifestFileVersion: 0
+CRC: 66637180
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: b1fe53911f3c8bfd0db189bc729bd252
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: e91467a618b48d777c79d670b76571ae
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 64
+  Script: {instanceID: 0}
+Assets:
+- Assets/BundleResources/Plane.prefab
+- Assets/Materials/New Material.mat
+Dependencies: []
