@@ -6,6 +6,7 @@ using System.Text;
 using LitJson;
 using Monster.BaseSystem.ResourceManager;
 using UnityEditor;
+using Object = UnityEngine.Object;
 
 namespace Assets.Editor.AssetBundleBuilder
 {
@@ -91,15 +92,19 @@ namespace Assets.Editor.AssetBundleBuilder
                 rootPathSet.Add(path);
             }
 
+            var rootObjectList = new List<Object>();
+
             foreach (var path in rootList)
             {
-                foreach (var depPath in AssetDatabase.GetDependencies(path))
+                rootObjectList.Add(AssetDatabase.LoadAssetAtPath(path, typeof (Object)));
+            }
+            foreach (var depObject in EditorUtility.CollectDependencies(rootObjectList.ToArray()))
+            {
+                var depPath = AssetDatabase.GetAssetPath(depObject);
+                if (!listPathSet.Contains(depPath) && !rootPathSet.Contains(depPath))
                 {
-                    if (!listPathSet.Contains(depPath) && !rootPathSet.Contains(depPath))
-                    {
-                        if (Utility.IsLoadingAsset(Utility.GetExtension(depPath)))
-                            listPathSet.Add(depPath);
-                    }
+                    if (Utility.IsLoadingAsset(Utility.GetExtension(depPath)))
+                        listPathSet.Add(depPath);
                 }
             }
             return listPathSet.ToList();
@@ -128,9 +133,12 @@ namespace Assets.Editor.AssetBundleBuilder
             {
                 var path = pair.Key;
                 var curNode = pair.Value;
+                var nodeObj = AssetDatabase.LoadAssetAtPath(path, typeof (Object));
+                var depObjs = EditorUtility.CollectDependencies(new Object[] {nodeObj});
 
-                foreach (var depPath in AssetDatabase.GetDependencies(path))
+                foreach (var depObj in depObjs)
                 {
+                    var depPath = AssetDatabase.GetAssetPath(depObj);
                     if (map.ContainsKey(depPath) && path != depPath)
                     {
                         curNode.depence.Add(depPath);
@@ -177,7 +185,7 @@ namespace Assets.Editor.AssetBundleBuilder
                 {
                     node.depence.Remove(depPath);
                     var depNode = map[depPath];
-                    depNode.depenceOnMe.Remove(depPath);
+                    depNode.depenceOnMe.Remove(path);
                 }
                 foreach (var depPath in node.depence)
                 {
